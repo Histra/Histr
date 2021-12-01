@@ -6,13 +6,26 @@
 import hashlib
 import os
 
-from flask import Blueprint, request, make_response, current_app, jsonify
+from flask import Blueprint, request, make_response, current_app, jsonify, redirect, url_for
 
 bp_token = Blueprint('token', __name__)
 
 
-@bp_token.route("/")
+@bp_token.route("/", methods=["GET", "POST"])
 def index():
+    if request.method == 'GET':
+        return redirect(url_for('token.access_token'))
+    else:
+        return redirect(url_for('token.response'))
+
+
+@bp_token.route("/response", methods=["POST"])
+def response():
+    print(request.get_data())
+
+
+@bp_token.route("/access_token")
+def access_token():
     try:
         signature = request.args.get('signature', '')
         timestamp = request.args.get('timestamp', '')
