@@ -2,6 +2,6 @@
 
 .env
 
-*.log
+log/*
 
 .idea
