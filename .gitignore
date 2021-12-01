@@ -1,0 +1,7 @@
+/instance
+
+.env
+
+*.log
+
+.idea
