@@ -6,7 +6,7 @@
 import hashlib
 import os
 
-from flask import Blueprint, request, make_response, current_app
+from flask import Blueprint, request, make_response, current_app, jsonify
 
 bp_token = Blueprint('token', __name__)
 
@@ -33,4 +33,6 @@ def index():
     except Exception as e:
         current_app.logger.info("{}".format(str(e)))
 
-    return ""
+    return jsonify({
+        "Histranger": "终于被你发现我啦!"
+    })

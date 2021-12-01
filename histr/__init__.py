@@ -10,7 +10,7 @@ from logging.handlers import RotatingFileHandler
 from flask import Flask
 
 from histr.blueprints.token import bp_token
-from histr.settings import StaticConfig
+from histr.settings import config
 
 from dotenv import load_dotenv
 
@@ -19,8 +19,11 @@ load_dotenv('.env')
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 
-def create_app():
+def create_app(config_name=None):
+    if config_name is None:
+        config_name = os.getenv('FLASK_CONFIG', 'development')
     app = Flask('histr')
+    app.config.from_object(config[config_name])
 
     register_blueprints(app)
     register_logging(app)
