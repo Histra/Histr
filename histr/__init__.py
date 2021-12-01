@@ -37,8 +37,9 @@ def register_logging(app):
 
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-    os.makedirs(basedir, exist_ok=True)
-    file_handler = RotatingFileHandler(os.path.join(basedir, 'logs/histr.log'),
+    log_dir = os.path.join(basedir, 'logs')
+    os.makedirs(log_dir, exist_ok=True)
+    file_handler = RotatingFileHandler(os.path.join(log_dir, 'histr.log'),
                                        maxBytes=10 * 1024 * 1024, backupCount=10)
     file_handler.setFormatter(formatter)
     file_handler.setLevel(logging.INFO)
