@@ -6,6 +6,8 @@
 import datetime
 import json
 import os
+from pathlib import Path
+
 import requests
 
 from histr.settings import StaticConfig
@@ -29,6 +31,8 @@ class GetDataFromHiBlogAnswer(object):
         return access_token
 
     def write2json(self, access_token):
+        # https://stackoverflow.com/questions/273192/how-can-i-safely-create-a-nested-directory-in-python
+        Path(self.tmp_data_dir).mkdir(parents=True, exist_ok=True)
         dic = {
             "timestamp": datetime.datetime.now().strftime('%Y/%m/%d-%H:%M:%S'),
             "access_token": access_token,
