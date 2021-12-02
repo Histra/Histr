@@ -10,8 +10,12 @@ from pathlib import Path
 
 import requests
 
-from histr.settings import StaticConfig
 # MD, import must add package name, otherwise `Error: While importing 'histr', an ImportError was raised.`
+from histr.settings import StaticConfig
+
+# The following two lines are just for test.
+# import dotenv
+# dotenv.load_dotenv('../.env')
 
 
 class GetDataFromHiBlogAnswer(object):
@@ -20,9 +24,13 @@ class GetDataFromHiBlogAnswer(object):
     tmp_data_dir = os.path.join(StaticConfig.histr_PATH, 'tmp_data')
     token_path = os.path.join(tmp_data_dir, 'access_token.json')
 
+    answer_random_item_API = "http://{}/answer/api/v1/oauth/answer_random_item".format(StaticConfig.IP)
+    answer_token_API = "http://{}/answer/api/v1/oauth/token".format(StaticConfig.IP)
+
     def get_token(self):
+        print(self.username, self.password)
         payload = {'username': self.username, 'password': self.password, 'grant_type': 'password'}
-        res = requests.post('http://121.40.58.243/answer/api/v1/oauth/token', data=payload)
+        res = requests.post(self.answer_token_API, data=payload)
         res = dict(res.json())
         access_token = None
         if res.get('token_type') == "Bearer":
@@ -52,13 +60,14 @@ class GetDataFromHiBlogAnswer(object):
                     access_token = token_dict.get('access_token')
         if access_token is None:
             access_token = self.get_token()
+            print(access_token)
             self.write2json(access_token=access_token)
 
         headers = {"Authorization": f"Bearer {access_token}"}
-        res = requests.get(f'http://192.168.3.127:5001/answer/api/v1/oauth/answer_random_item',
-                           headers=headers)
-        res = res.json()
+        res = requests.get(self.answer_random_item_API, headers=headers)
         # print(json.dumps(res.json(), ensure_ascii=False))
+        res = res.json()
+        print(res)
         if res.get('code') == 404:
             return res.get("message")
         else:

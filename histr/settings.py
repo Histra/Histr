@@ -14,6 +14,7 @@ MYSQL_DATABASE_NAME = os.getenv('MYSQL_HISTR_DATABASE_NAME', 'You guess.')
 
 class StaticConfig(object):
     histr_PATH = os.path.abspath(os.path.dirname(__file__))
+    IP = "121.40.58.243"
 
 
 class BaseConfig(object):
