@@ -13,7 +13,6 @@ from histr.blueprints.token import bp_token
 from histr.settings import config
 
 from dotenv import load_dotenv
-
 load_dotenv('.env')
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))

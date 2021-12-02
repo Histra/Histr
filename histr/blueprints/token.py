@@ -6,7 +6,11 @@
 import hashlib
 import os
 
+import xmltodict
 from flask import Blueprint, request, make_response, current_app, jsonify, redirect, url_for
+
+from histr.message import TextMessage
+from histr.utils import GetDataFromHiBlogAnswer
 
 bp_token = Blueprint('token', __name__)
 
@@ -21,7 +25,21 @@ def index():
 
 @bp_token.route("/response", methods=["POST"])
 def response():
-    print(request.get_data())
+    xml_data = request.get_data().decode('utf-8').strip()
+    dict_data = xmltodict.parse(xml_data)
+    dict_data = dict_data["xml"]
+
+    if dict_data["MsgType"] == "text":
+        content = dict_data["Content"]
+        from_user_name = dict_data["FromUserName"]
+        to_user_name = dict_data["ToUserName"]
+        answer = GetDataFromHiBlogAnswer().get_answer_random_item()
+        xml_message = TextMessage(to_user_name, from_user_name, answer).xml_message
+        xml_response = make_response(xml_message)
+        xml_response.content_type = 'application/xml'
+        return xml_response
+
+    return "success"
 
 
 @bp_token.route("/access_token")

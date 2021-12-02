@@ -7,3 +7,5 @@ logs/*
 .idea
 
 git2github.sh
+
+/histr/tmp_data
