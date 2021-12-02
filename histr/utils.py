@@ -28,7 +28,6 @@ class GetDataFromHiBlogAnswer(object):
     answer_token_API = "http://{}/answer/api/v1/oauth/token".format(StaticConfig.IP)
 
     def get_token(self):
-        print(self.username, self.password)
         payload = {'username': self.username, 'password': self.password, 'grant_type': 'password'}
         res = requests.post(self.answer_token_API, data=payload)
         res = dict(res.json())
@@ -67,7 +66,6 @@ class GetDataFromHiBlogAnswer(object):
         res = requests.get(self.answer_random_item_API, headers=headers)
         # print(json.dumps(res.json(), ensure_ascii=False))
         res = res.json()
-        print(res)
         if res.get('code') == 404:
             return res.get("message")
         else:
