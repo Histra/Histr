@@ -25,6 +25,7 @@ def index():
 
 @bp_token.route("/response", methods=["POST"])
 def response():
+    # print(request.get_data().decode('utf-8'))
     xml_data = request.get_data().decode('utf-8').strip()
     dict_data = xmltodict.parse(xml_data)
     dict_data = dict_data["xml"]

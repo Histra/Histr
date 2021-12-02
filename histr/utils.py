@@ -6,13 +6,10 @@
 import datetime
 import json
 import os
-
 import requests
 
-from dotenv import load_dotenv
-from settings import StaticConfig
-
-load_dotenv(os.path.join(os.path.dirname(StaticConfig.histr_PATH), '.env'))
+from histr.settings import StaticConfig
+# MD, import must add package name, otherwise `Error: While importing 'histr', an ImportError was raised.`
 
 
 class GetDataFromHiBlogAnswer(object):
